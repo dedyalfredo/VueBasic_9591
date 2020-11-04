@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unguided</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ judul }}</h1>
+
+        <div>
+            <input type="number" v-model="input" placeholder="tulis sesuatu..."/>
+            <button @click="tebak">Tebak</button>
+            {{ number }}
+        </div>
+        
+        <div v-show="benar">
+            <p>Tebakan Benar</p> 
+        </div>
+    
+        <div v-show="Salah">
+            <p>Tebakan Salah</p> 
+        </div>
+        
+        {{ identitas.nama }} 
+        {{ identitas.npm }} 
+        {{ identitas.kelas }}
+    </div>
+
+
+</body>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            judul: "MAIN TEBAK ANGKA",
+            input: null,
+            number: Math.floor(Math.random() * 11),
+            kesempatan: 3,
+            salah:false,
+            benar:false,
+            identitas:{
+                nama: 'Dedy Alfredo',
+                npm: '180709591',
+                kelas: 'D',
+            },
+        },
+        methods: {
+            tebak() {
+                if(this.number == this.input){
+                    this.benar=true;
+                }else{
+                    this.salah=true;
+                    this.kesempatan--;
+                }
+            },
+        },
+    });
+</script>
+</html>
