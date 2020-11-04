@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unguided</title>
     <script src="vue.js"></script>
@@ -9,28 +10,42 @@
 
 <body>
     <div id="app">
-        <h1>{{ judul }}</h1>
-
-        <div>
-            <input type="number" v-model="input" placeholder="tulis sesuatu..."/>
-            <button @click="tebak">Tebak</button>
-            {{ number }}
+        <h1 class="mx-auto" style="width: 400px;">{{ judul }}</h1>
+        <h3 class="mx-auto" style="width: 310px;">{{ subjudul }}</h3>
+        <br>
+        <div class="mx-auto" style="width:310px">
+            <input class="form-control" style="width: 300px;" type="number" v-model="input" placeholder="tulis sesuatu..." :disabled="disabled"/>
+            <br>
+            <button class="btn btn-primary" class="mx-auto" style="width:300px" @click="tebak" :disabled="disabled">Tebak</button>
         </div>
+        <br>
+        <div class="mx-auto" style="width:310px">
+            <div v-show="benar">
+                <p class="text-center text-success">Tebakan Benar!</p> 
+                <button style="width: 300px;" class="btn btn-success" @click="replay" >main lagi</button>
+            </div>
         
-        <div v-show="benar">
-            <p>Tebakan Benar</p> 
+            <div v-show="salah">
+                <p class="text-center text-warning">Tebakan Salah!</p>
+                <button style="width: 300px;" class="btn btn-warning" @click="ulang" >tebak lagi</button> 
+            </div>
+            
+            <div v-show="kalah">
+                <p class="text-center text-danger"s>Kamu kalah!</p> 
+                <button style="width: 300px;" class="btn btn-success" @click="replay" >main lagi</button>
+            </div>
         </div>
-    
-        <div v-show="Salah">
-            <p>Tebakan Salah</p> 
+        <br>
+        <div class="mx-auto" style="width:65px">
+            Cheat: {{ number }}
         </div>
-        
-        {{ identitas.nama }} 
-        {{ identitas.npm }} 
-        {{ identitas.kelas }}
+        <br>
+        <div class="mx-auto" style="width: 200px;">
+            {{ identitas.nama }}
+            {{ identitas.npm }}
+            {{ identitas.kelas }}
+        </div>
     </div>
-
-
 </body>
 
 <script>
@@ -38,16 +53,19 @@
         el: "#app",
         data: {
             judul: "MAIN TEBAK ANGKA",
+            subjudul: "Tebak Angka dari 1 - 10",
             input: null,
-            number: Math.floor(Math.random() * 11),
+            number: Math.floor(Math.random() * 10)+1,
             kesempatan: 3,
             salah:false,
             benar:false,
+            kalah:false,
             identitas:{
                 nama: 'Dedy Alfredo',
                 npm: '180709591',
                 kelas: 'D',
             },
+            disabled:false,
         },
         methods: {
             tebak() {
@@ -56,7 +74,23 @@
                 }else{
                     this.salah=true;
                     this.kesempatan--;
+                    this.disabled=true;
+                    if(this.kesempatan==0){
+                        this.kalah=1;
+                        this.salah=false;
+                        this.kesempatan=3;
+                    }
                 }
+            },
+            ulang(){
+                this.salah = false;
+                this.disabled=false;
+            },
+            replay(){
+                this.benar=false;
+                this.number = Math.floor(Math.random() * 11);
+                this.disabled=false;
+                this.kalah=false;
             },
         },
     });
