@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUGAS</title>
+    <script src="vue.js"></script>
+</head>
+<body class="bg-dark">
+    <div id="app">
+        <div  class="card mx-auto" style="width: 30rem;">
+            <div class="card-body">
+                <h1 class="d-flex justify-content-center">&#127938; TO DO LIST &#128076;</h1>
+                <div v-for="(list,index) in items" class="card">
+                    <Button type="button" class="close d-flex flex-row-reverse p-2" aria-label="Close" @click="deleteItem(index)">
+                        <span aria-hidden="true">&times;</span>
+                    </Button>   
+                    <h2>{{ list.nama }}</h2>
+                    <h5>{{ list.prioritas }}</h4>
+                    <p>{{ list.catatan }}</p>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <div>
+                        <label for="nama">Apa yang mau kamu kerjakan?</label>
+                        <input type="text" id="nama" v-model="nama" class="form-control">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="prioritas">Peting gak?</label>
+                        <select name="prioritas"  id="prioritas" v-model="prioritas"  class="form-control">
+                            <option value="Penting">Penting</option>
+                            <option value="Biasa">Biasa</option>
+                            <option value="Tidak Penting">Tidak Penting</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div>
+                        <label for="catatan">Ada Catatan penting?</label>
+                        <textarea id="catatan" v-model="catatan" class="form-control"></textarea>
+                    </div>
+                    <br>
+                    <div>
+                        <button class="btn btn-dark" @click="resetItem">Reset</button>
+                        <button class="btn btn-success" @click="addItem">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="mx-auto text-white" style="width: 250px;">
+            {{ identitas.nama }} |
+            {{ identitas.npm }} |
+            {{ identitas.kelas }}
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            nama : "",
+            prioritas : "",
+            catatan : "",
+            identitas: {
+                nama: 'Dedy Alfredo',
+                npm: '180709591',
+                kelas: 'PAW-D',
+            },
+            items:[],
+        },
+        methods: {
+            addItem() {
+                var list = {
+                    nama : nama.value,
+                    prioritas : prioritas.value,
+                    catatan : catatan.value,
+                }
+                this.items.push(list);
+            },
+            resetItem(){
+                this.nama = '';
+                this.prioritas = '';
+                this.catatan = '';
+            },
+            deleteItem(index){
+                this.items.splice(index, 1);
+            },
+        },
+    });
+</script>
+</html>
